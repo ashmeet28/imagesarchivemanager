@@ -47,21 +47,24 @@ func createHashMapForExistingFiles(d string) map[string]bool {
 
 func main() {
 	op := os.Args[1]
-	dir1 := os.Args[2]
-	dir2 := os.Args[3]
 
 	switch op {
 	case "renamefiles":
+		dir1 := os.Args[2]
+		dir2 := os.Args[3]
+
 		files, err := os.ReadDir(dir1)
 
 		if err != nil {
 			log.Fatal(err)
 		}
 
+		nameTimePrefix := newImgTimePrefix()
+
 		for _, f := range files {
 			fName := f.Name()
 
-			newFName := newImgTimePrefix() + "_" + newImgId() + "_0" + path.Ext(fName)
+			newFName := nameTimePrefix + "_" + newImgId() + "_0" + path.Ext(fName)
 
 			data, err := os.ReadFile(path.Join(dir1, fName))
 			if err != nil {
@@ -71,6 +74,9 @@ func main() {
 			os.WriteFile(path.Join(dir2, newFName), data, 0666)
 		}
 	case "copynewfilesonly":
+		dir1 := os.Args[2]
+		dir2 := os.Args[3]
+
 		existingFilesHashMap := createHashMapForExistingFiles(dir2)
 
 		files, err := os.ReadDir(dir1)
