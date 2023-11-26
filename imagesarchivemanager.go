@@ -94,6 +94,7 @@ func main() {
 
 			if !existingFilesHashMap[hex.EncodeToString(sum[0:32])] {
 				os.WriteFile(path.Join(dir2, fName), data, 0666)
+				existingFilesHashMap[hex.EncodeToString(sum[0:32])] = true
 			}
 		}
 	case "createmagickfile":
