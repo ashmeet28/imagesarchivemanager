@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
 	"log"
 	"os"
 	"path"
@@ -19,47 +18,35 @@ func newImgId() string {
 	return hex.EncodeToString(b)
 }
 
-func timeForImgName() string {
+func newImgTimePrefix() string {
 	t := time.Now().String()
-	return t[:4] + t[5:7] + t[8:10]
+	return t[0:4] + t[5:7] + t[8:10]
 }
 
 func main() {
 	op := os.Args[1]
-	path1 := os.Args[2]
+	dir1 := os.Args[2]
+	dir2 := os.Args[3]
+
 	switch op {
 	case "renamefiles":
-		var magickPngFileData []byte
-
-		files, err := os.ReadDir(path1)
+		files, err := os.ReadDir(dir1)
 
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		for _, file := range files {
-			fileName := file.Name()
+			fName := file.Name()
 
-			imgId := newImgId()
+			newFName := newImgTimePrefix() + "_" + newImgId() + path.Ext(fName)
 
-			newFileName := "src" + "_" + imgId + path.Ext(fileName)
-
-			magickPngFileData = append(magickPngFileData, []byte("magick"+" "+newFileName+" "+"$(date +%y%m%d)"+"_"+imgId+".png")...)
-			magickPngFileData = append(magickPngFileData, 0x0a)
-
-			magickPngFileData = append(magickPngFileData, []byte("rm"+" "+newFileName)...)
-			magickPngFileData = append(magickPngFileData, 0x0a)
-
-			data, err := os.ReadFile(path.Join(path1, fileName))
+			data, err := os.ReadFile(path.Join(dir1, fName))
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			os.WriteFile(path.Join(path1, newFileName), data, 0666)
-
-			fmt.Println("Copied " + fileName + " to " + newFileName)
+			os.WriteFile(path.Join(dir2, newFName), data, 0666)
 		}
-
-		os.WriteFile(path.Join(path1, "magickforpng"), magickPngFileData, 0666)
 	}
 }
