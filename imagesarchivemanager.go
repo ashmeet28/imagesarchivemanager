@@ -96,6 +96,35 @@ func main() {
 				os.WriteFile(path.Join(dir2, fName), data, 0666)
 			}
 		}
+	case "createmagickfile":
+		dir1 := os.Args[2]
+		dir2 := os.Args[3]
+
+		files, err := os.ReadDir(dir1)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fNamesIdHashMap := map[string]bool{}
+
+		for _, f := range files {
+			fName := f.Name()
+			fNamesIdHashMap[fName[9:43]] = true
+		}
+
+		var magickFileData []byte
+
+		for _, f := range files {
+			fName := f.Name()
+			if fName[42:43] == "0" && (!fNamesIdHashMap[fName[9:41]+"_1"]) {
+				magickFileData = append(magickFileData, []byte("magick"+" "+fName+" "+fName[0:41]+"_1.png")...)
+				magickFileData = append(magickFileData, 0x0a)
+			}
+		}
+
+		os.WriteFile(path.Join(dir2, "magickfile"), magickFileData, 0666)
+
 	default:
 		fmt.Println("Invaild Operation")
 	}
