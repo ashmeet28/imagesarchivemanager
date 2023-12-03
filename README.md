@@ -1,6 +1,6 @@
 # imagesarchivemanager
 
-## Usage
+## Commands
 
 imagesarchivemanager renamefiles /src /dest
 
