@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strconv"
 	"time"
 )
 
@@ -84,6 +85,8 @@ func main() {
 			log.Fatal(err)
 		}
 
+		var c int
+
 		for _, f := range files {
 			fName := f.Name()
 			data, err := os.ReadFile(path.Join(dir1, fName))
@@ -95,8 +98,12 @@ func main() {
 			if !existingFilesHashMap[hex.EncodeToString(sum[0:32])] {
 				os.WriteFile(path.Join(dir2, fName), data, 0666)
 				existingFilesHashMap[hex.EncodeToString(sum[0:32])] = true
+				c++
 			}
 		}
+
+		fmt.Println("Copied " + strconv.FormatInt(int64(c), 10) + " files out of " + strconv.FormatInt(int64(len(files)), 10))
+
 	case "createmagickfile":
 		dir1 := os.Args[2]
 		dir2 := os.Args[3]
