@@ -132,7 +132,28 @@ func main() {
 		}
 
 		os.WriteFile(path.Join(dir2, "magickfile"), magickFileData, 0666)
+	case "createmvfile":
+		dir1 := os.Args[2]
+		dir2 := os.Args[3]
 
+		files, err := os.ReadDir(dir1)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		var d []byte
+		for _, f := range files {
+			fName := f.Name()
+			data, err := os.ReadFile(path.Join(dir1, fName))
+			if err != nil {
+				log.Fatal(err)
+			}
+			sum := sha256.Sum256(data)
+			newFName := fName[0:9] + hex.EncodeToString(sum[0:32])[0:16] + path.Ext(fName)
+			d = append(d, []byte("mv "+fName+" "+newFName)...)
+			d = append(d, 0xa)
+		}
+		os.WriteFile(path.Join(dir2, "mvfile"), d, 0666)
 	default:
 		fmt.Println("Invaild Operation")
 	}
