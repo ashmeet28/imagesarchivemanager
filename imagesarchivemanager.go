@@ -110,6 +110,23 @@ func main() {
 
 		fmt.Println("Total files checked:", strconv.FormatInt(int64(len(files)), 10))
 		fmt.Println("Total errors:", strconv.FormatInt(int64(c), 10))
+	case "magickcheck":
+		archiveDirArg := os.Args[2]
+		magickFileDirArg := os.Args[3]
+
+		files, err_1 := os.ReadDir(archiveDirArg)
+		if err_1 != nil {
+			log.Fatal(err_1)
+		}
+
+		var d []byte
+		for _, f := range files {
+			d = append(d, []byte("magick "+f.Name()+" /mnt/t/temp.rgba")...)
+			d = append(d, 0x0a)
+			d = append(d, []byte("rm /mnt/t/temp.rgba")...)
+			d = append(d, 0x0a)
+		}
+		os.WriteFile(path.Join(magickFileDirArg, "magickcheckbashfile"), d, 0666)
 
 	default:
 		fmt.Println("Invaild Operation")

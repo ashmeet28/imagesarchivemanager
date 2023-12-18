@@ -2,8 +2,8 @@
 
 ## Commands
 
-imagesarchivemanager renamefiles /src /dest
+imagesarchivemanager archive /file_paths /archive_dir
 
-imagesarchivemanager copynewfilesonly /src /dest
+imagesarchivemanager check /archive_dir
 
-imagesarchivemanager createmagickfile /src /dest
+imagesarchivemanager magickcheck /archive_dir /magick_file_dir
