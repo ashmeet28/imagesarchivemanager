@@ -129,6 +129,5 @@ func main() {
 
 	default:
 		fmt.Println("Invaild Operation")
-		fmt.Println(newImgTimePrefix())
 	}
 }
