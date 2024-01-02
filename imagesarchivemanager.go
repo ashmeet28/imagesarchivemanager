@@ -13,8 +13,7 @@ import (
 )
 
 func newImgTimePrefix() string {
-	t := time.Now().String()
-	return t[0:4] + t[5:7] + t[8:10]
+	return time.Now().Format("20060102")
 }
 
 func main() {
@@ -130,5 +129,6 @@ func main() {
 
 	default:
 		fmt.Println("Invaild Operation")
+		fmt.Println(newImgTimePrefix())
 	}
 }
