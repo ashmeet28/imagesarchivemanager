@@ -79,7 +79,7 @@ func main() {
 				c1++
 			}
 		}
-		fmt.Println("Total files:", strconv.FormatInt(int64(len(filePaths)), 10))
+
 		fmt.Println("Images found:", strconv.FormatInt(int64(c1), 10))
 		fmt.Println("Images archived:", strconv.FormatInt(int64(c2), 10))
 
