@@ -2,7 +2,7 @@
 
 ## Commands
 
-imagesarchivemanager archive /file_containing_file_paths /archive_dir
+imagesarchivemanager merge /file_containing_file_paths /archive_dir
 
 imagesarchivemanager check /archive_dir
 

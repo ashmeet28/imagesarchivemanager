@@ -20,7 +20,7 @@ func main() {
 	op := os.Args[1]
 
 	switch op {
-	case "archive":
+	case "merge":
 		filePathsArg := os.Args[2]
 		archiveDirArg := os.Args[3]
 
@@ -48,6 +48,9 @@ func main() {
 				withoutNewLinesData = append(withoutNewLinesData, 0x3a)
 			} else if c == 0x3a {
 				fmt.Println("error: found colon in file paths")
+				os.Exit(1)
+			} else if c < 0x20 || c > 0x7e {
+				fmt.Println("error: found invalid byte in file paths")
 				os.Exit(1)
 			} else {
 				withoutNewLinesData = append(withoutNewLinesData, c)
